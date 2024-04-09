@@ -33,7 +33,6 @@ export default function Home() {
 
   const completeTask = (taskIndex: number) => {
     const newList = list.map((item, i) =>
-      // [...list, { completed: i === taskIndex && !item.completed }]
       i === taskIndex ? { ...item, completed: !item.completed } : item
     );
     setList(newList);
@@ -49,12 +48,6 @@ export default function Home() {
     setList([]);
   };
 
-  const toggleTask = (taskIndex: number) => {
-    const newList = list.map((item, index) =>
-      index === taskIndex ? { ...item, completed: !item.completed } : item
-    );
-    setList(newList);
-  };
 
   const updateTask = (taskIndex: number, newText: string) => {
     const newList = list.map((item, index) =>
