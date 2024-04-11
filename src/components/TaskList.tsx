@@ -1,48 +1,41 @@
-import React, { useState } from "react";
-import Task from "./Task";
-
-type Todolist = {
-  text: string;
-  completed: boolean;
-};
+import React from "react";
+import { Task } from "./Task";
 
 type TaskListProps = {
-  tasks: Todolist[];
-  onUpdateTask: (index: number, newText: string) => void;
+  list: { text: string; completed: boolean }[];
+  editIndex: number | null;
+  updatedTask: string;
+  setUpdatedTask: (value: string) => void;
+  updateTask: (index: number, updatedTask: string) => void;
+  deleteTask: (index: number) => void;
+  completeTask: (index: number) => void;
+  handleEditClick: (index: number) => void;
 };
 
-const TaskList: React.FC<TaskListProps> = ({ tasks, onUpdateTask }) => {
-  const [editIndex, setEditIndex] = useState<number | null>(null);
-  const [updatedTask, setUpdatedTask] = useState("");
-
-  const handleEditClick = (index: number) => {
-    setEditIndex(index);
-    setUpdatedTask(tasks[index].text);
-  };
-
-  const updateTask = (index: number, newText: string) => {
-    onUpdateTask(index, newText);
-    setEditIndex(null);
-  };
-
-  return (
-    <ul>
-      {tasks.map((task, index) => (
-        <Task
-          key={index}
-          text={task.text}
-          completed={task.completed}
-          onDeleteTask={() => console.log("Delete task")}
-          onCompleteTask={() => console.log("Complete task")}
-          onEditTask={() => handleEditClick(index)}
-          onUpdateTask={(newText) => updateTask(index, newText)}
-          editMode={editIndex === index}
-          updatedTask={updatedTask}
-          setUpdatedTask={setUpdatedTask}
-        />
-      ))}
-    </ul>
-  );
-};
-
-export default TaskList;
+export const TaskList: React.FC<TaskListProps> = ({
+  list,
+  editIndex,
+  updatedTask,
+  setUpdatedTask,
+  updateTask,
+  deleteTask,
+  completeTask,
+  handleEditClick,
+}) => (
+  <ul>
+    {list.map((item, index) => (
+      <Task
+        key={index}
+        item={item}
+        index={index}
+        editIndex={editIndex}
+        updatedTask={updatedTask}
+        setUpdatedTask={setUpdatedTask}
+        updateTask={updateTask}
+        deleteTask={deleteTask}
+        completeTask={completeTask}
+        handleEditClick={handleEditClick}
+      />
+    ))}
+  </ul>
+);
